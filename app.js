@@ -1,44 +1,47 @@
 'use strict';
 
-let arr = [4, 2, 4];
-let result = 0;
+let equal_pressed = 0;
+let button_input = document.querySelectorAll(".input-button");
+let input = document.getElementById("input");
+let equal = document.getElementById("equal");
+let clear = document.getElementById("clear");
+let erase = document.getElementById("erase");
+
+window.onload = () => {
+    input.value = "";
+};
+
+button_input.forEach((button_class) => {
+    button_class.addEventListener("click", () => {
+        if(equal_pressed == 1){
+            input.value = "";
+            equal_pressed = 0;
+        }
+
+        input.value += button_class.value;
+    });
+});
 
 
-const addtions = function(){
-    for(let i = 0; i < arr.length; i++){
-        result += arr[i];
+equal.addEventListener("click", () => {
+    equal_pressed = 1;
+    let inp_val = input.value;
+    try{
+        let solution = eval(inp_val);
+        if(Number.isInteger(solution)){
+            input.value = solution;
+        } else{
+            input.value = solution.toFixed(2);
+        } 
+    } catch (err){
+        alert("Invalid input");
     }
-    console.log(result);
-    result = 0;
-}
-addtions();  
+});
 
-const subtraction = function(){
-    for(let i = 0; i < arr.length; i++){
-        result = arr[i] - result;
-    }
-    console.log(result);
-    result = 0;
-}
-subtraction();
+clear.addEventListener("click", () => {
+    input.value = "";
+});
 
-const multiplication =  function(){
-    result = 1;
-    for(let i = 0; i < arr.length; i++){
-        result *= arr[i];
-    }
-    console.log(result);
-    result = 0;
-}
-multiplication();
-
-const division = function(){
-    result = 1;
-    for(let i = 0; i < arr.length; i++){
-        result = arr[i] / result;
-        console.log(result)
-    }
-    console.log(result);
-    result = 0;
-}
-division();
+erase.addEventListener("click", () => {
+    input.value = input.value.substr(0, input.value.length - 1);
+})
